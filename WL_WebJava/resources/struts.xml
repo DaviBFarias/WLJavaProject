@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.custom.i18n.resources"
+		value="ApplicationResources" />
+	<constant name="struts.devMode" value="true" />
+
+	<!-- <constant name="struts.actionProxyFactory" value="prefix"/> <constant 
+		name="struts.enable.DynamicMethodInvocation" value="true" /> <constant name="struts.mapper.prefixMapping" 
+		value="/rest:rest,:struts"/> <constant name="struts.convention.default.parent.package" 
+		value="utility"/> <constant name="struts.convention.package.locators" value="utility"/> 
+		<constant name="struts.action.extension" value="xhtml,,xml,json,action"/> 
+		<constant name="struts.convention.action.suffix" value="Controller"/> <constant 
+		name="struts.mapper.class" value="rest" /> <constant name="struts.devMode" 
+		value="false" /> <constant name="struts.action.extension" value="xhtml,,xml,json,action"/> 
+		<constant name="struts.convention.action.mapAllMatches" value="false"/> -->
+
+
+	<package name="utility" extends="struts-default" namespace="/">
+		<action name="index" method="execute"
+			class="utility.CadastrarAction">
+			<result name="success">index.jsp</result>
+		</action>
+		<action name="register" method="register"
+			class="utility.CadastrarAction">
+			<result name="failure">index.jsp</result>
+			<result name="success" type="chain">list</result>
+		</action>
+		<action name="list" method="execute" class="utility.ListAction">
+			<result name="success">list.jsp</result>
+			<result name="error">index.jsp</result>
+		</action>
+		<action name="update" method="update"
+			class="utility.CadastrarAction">
+			<result name="failure">edit.jsp</result>
+			<result name="success">edit.jsp</result>
+		</action>
+		<action name="updateRegister" method="updateRegister"
+			class="utility.CadastrarAction">
+			<result name="failure" type="chain">list</result>
+			<result name="success" type="chain">list</result>
+		</action>
+		<action name="exclude" method="exclude"
+			class="utility.ExcludeAction">
+			<result name="failure" type="chain">list</result>
+			<result name="success" type="chain">list</result>
+		</action>
+		<action name="error" method="execute"
+			class="utility.PageNotFoundAction">
+			<result name="success">error.jsp</result>
+		</action>
+	</package>
+</struts>
