@@ -42,83 +42,60 @@ public class UserDAO {
     }  
 	
 	public boolean insertUpdateTbUsuarios(User user) {
-//		String sql = "CREATE PROCEDURE UPD_INS_USERS (\r\n" + 
-//				"  NOME VARCHAR(200),\r\n" + 
-//				"  CPF VARCHAR(11),\r\n" + 
-//				"  NASCIMENTO VARCHAR(10),\r\n" + 
-//				"  SENHA LONGTEXT)\r\n" + 
-//				"AS\r\n" + 
-//				"BEGIN\r\n" + 
-//				"  IF (EXISTS(SELECT CPF FROM TB_USUARIOS WHERE (CPF = ?))) THEN\r\n" + 
-//				"    UPDATE TB_USUARIOS\r\n" + 
-//				"    SET NOME = ?,\r\n" + 
-//				"		 CPF = ?,\r\n" + 
-//				"        NASCIMENTO = ?,\r\n" + 
-//				"        SENHA = ?\r\n" + 
-//				"    WHERE (CPF = ?);\r\n" + 
-//				"  ELSE\r\n" + 
-//				"    INSERT INTO TB_USUARIOS (\r\n" + 
-//				"        NOME,\r\n" + 
-//				"		 CPF,\r\n" + 
-//				"        NASCIMENTO,\r\n" + 
-//				"        SENHA)\r\n" + 
-//				"    VALUES (\r\n" + 
-//				"        ?,\r\n" + 
-//				"        ?,\r\n" + 
-//				"        ?,\r\n" + 
-//				"        ?);\r\n" + 
-//				"END";
-//		 try{
-//	        	DataBaseConnection db = new DataBaseConnection();
-//	            Connection con = db.getConexaoMySQL();
-//	            PreparedStatement pstmt = con.prepareStatement(sql);
-//	            pstmt.setString(1, user.getCpf());
-//	            pstmt.setString(2, user.getName());
-//	            pstmt.setString(3, user.getCpf());
-//	            pstmt.setString(4, user.getDateBirthday());
-//	            pstmt.setString(5, user.getPassword());
-//	            pstmt.setString(6, user.getCpf());
-//	            pstmt.setString(7, user.getName());
-//	            pstmt.setString(8, user.getCpf());
-//	            pstmt.setString(9, user.getDateBirthday());
-//	            pstmt.setString(10, user.getPassword());
-//	            
-//	    		System.out.println("Used procedure = "+ pstmt.toString());
-//	    		pstmt.execute();
-//	    		pstmt.close();
-//	            con.close();
-//	        }catch(Exception e){
-//	            e.printStackTrace();
-//	            return false;
-//	        }
+		
+		/*
+		    Procedure code ===================================
 		 
-		 String sql = "INSERT INTO TB_USUARIOS (\r\n" +
-		 		" NOME,\r\n" +
-		 		" CPF,\r\n" +
-		 		" NASCIMENTO,\r\n" +
-		 		" SENHA)\r\n" +
-		 		" VALUES (\r\n" +
-		 		" ?,\r\n" +
-		 		" ?,\r\n" +
-		 		" ?,\r\n" +
-		 		" ?);";
-			 try{
-		        	DataBaseConnection db = new DataBaseConnection();
-		            Connection con = db.getConexaoMySQL();
-		            PreparedStatement pstmt = con.prepareStatement(sql);
-		            pstmt.setString(1, user.getName());
-		            pstmt.setString(2, user.getCpf());
-		            pstmt.setString(3, user.getDateBirthday());
-		            pstmt.setString(4, user.getPassword());
-		            
-		    		System.out.println("Used procedure = "+ pstmt.toString());
-		    		pstmt.execute();
-		    		pstmt.close();
-		            con.close();
-		        }catch(Exception e){
-		            e.printStackTrace();
-		            return false;
-		        }
+		    DELIMITER $$
+			DROP PROCEDURE IF EXISTS UPD_INS_USERS;
+			CREATE PROCEDURE UPD_INS_USERS(in nomein varchar(200),
+				 in cpfin varchar(11),
+				 in nascimentoin varchar(10),
+				 in senhain LONGTEXT)
+			BEGIN
+			 
+			    IF EXISTS(SELECT CPF FROM TB_USUARIOS WHERE (CPF = cpfin)) THEN
+			    UPDATE `TB_USUARIOS`
+			    SET NOME = nomein,
+					  CPF = cpfin,
+			        NASCIMENTO = nascimentoin,
+			        SENHA = senhain
+			    WHERE (CPF = cpfin);
+			  ELSE
+			    INSERT INTO TB_USUARIOS (
+			        NOME,
+					  CPF,
+			        NASCIMENTO,
+			        SENHA)
+			    VALUES (
+			        nomein,
+			        cpfin,
+			        nascimentoin,
+			        senhain);
+			  END IF;
+			END$$
+			 
+			DELIMITER ;
+		 */
+		
+		String sql = "{call UPD_INS_USERS(?, ?, ?, ?)}";
+		 try{
+	        	DataBaseConnection db = new DataBaseConnection();
+	            Connection con = db.getConexaoMySQL();
+	            PreparedStatement pstmt = con.prepareStatement(sql);
+	            pstmt.setString(1, user.getName());
+	            pstmt.setString(2, user.getCpf());
+	            pstmt.setString(3, user.getDateBirthday());
+	            pstmt.setString(4, user.getPassword());
+	            
+	    		System.out.println("Used procedure = "+ pstmt.toString());
+	    		pstmt.execute();
+	    		pstmt.close();
+	            con.close();
+	        }catch(Exception e){
+	            e.printStackTrace();
+	            return false;
+	        }
 		return true;
 	}
 
@@ -142,35 +119,6 @@ public class UserDAO {
 	return true;
 	}
 	
-	public boolean updateTbUsuarios(User user) {
-		 
-		 String sql = "UPDATE TB_USUARIOS \r\n" + 
-					" SET NOME = ?,\r\n" + 
-					" CPF = ?,\r\n" + 
-					" NASCIMENTO = ?,\r\n" + 
-					" SENHA = ?\r\n" + 
-					" WHERE (CPF = ?);";
-			 try{
-		        	DataBaseConnection db = new DataBaseConnection();
-		            Connection con = db.getConexaoMySQL();
-		            PreparedStatement pstmt = con.prepareStatement(sql);
-		            pstmt.setString(1, user.getName());
-		            pstmt.setString(2, user.getCpf());
-		            pstmt.setString(3, user.getDateBirthday());
-		            pstmt.setString(4, user.getPassword());
-		            pstmt.setString(5, user.getCpf());
-		            
-		    		System.out.println("Used procedure = "+ pstmt.toString());
-		    		pstmt.executeUpdate();
-		    		pstmt.close();
-		            con.close();
-		        }catch(Exception e){
-		            e.printStackTrace();
-		            return false;
-		        }
-		return true;
-	}
-
 	public boolean verifyCpfExists(String cpf) {
 		 String sql = "SELECT count(*) as QTD FROM TB_USUARIOS \r\n" +
 					" WHERE (CPF = ?);";

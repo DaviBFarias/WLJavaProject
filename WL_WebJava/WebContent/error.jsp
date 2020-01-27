@@ -3,7 +3,7 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <html>
 <head>
-<title><s:text name="text.title"></s:text></title>
+<title><s:text name="text.titleRegisterScreen"></s:text></title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style type="text/css">
@@ -15,7 +15,8 @@
 		<h2>
 			<s:text name="text.register"></s:text>
 		</h2>
-		<%@ include file="navbar.jsp" %>
+		<s:include value="navbar.jsp" />
+		<p>Page not found</p>
 		<s:actionmessage class="lists" />
 	</div>
 </body>

@@ -5,7 +5,7 @@
 <struts>
 	<constant name="struts.custom.i18n.resources"
 		value="ApplicationResources" />
-	<constant name="struts.devMode" value="true" />
+	<constant name="struts.devMode" value="false" />
 
 	<!-- <constant name="struts.actionProxyFactory" value="prefix"/> <constant 
 		name="struts.enable.DynamicMethodInvocation" value="true" /> <constant name="struts.mapper.prefixMapping" 
@@ -39,7 +39,7 @@
 		</action>
 		<action name="updateRegister" method="updateRegister"
 			class="utility.CadastrarAction">
-			<result name="failure" type="chain">list</result>
+			<result name="failure">index.jsp</result>
 			<result name="success" type="chain">list</result>
 		</action>
 		<action name="exclude" method="exclude"

@@ -122,7 +122,7 @@ public class CadastrarAction extends ActionSupport{
 		
 		//saving into database
 		UserDAO userDAO = new UserDAO();
-		if(!userDAO.updateTbUsuarios(us)) {
+		if(!userDAO.insertUpdateTbUsuarios(us)) {
 			addActionMessage(getText("error.insert"));
 			return "failure";
 		}
